@@ -15,6 +15,9 @@ Configure and manage Kiisu aux MCU settings from your Flipper.
 - **Startup Color:** `Purple`, `Off`, `Red`, `Green`, `Blue`, `Yellow`, `Cyan`, `Magenta`, `White`  
 - **Charge Rainbow:** `On` / `Off`
 
+## Note for Momentum users
+Auto PowerOFF is already an option in Momentum. I suggest you turn OFF the auto poweroff option in kiisu manager and keep the one in flipper settings on.
+
 ---
 
 **Make sure your Kiisu is on the latest [companion firmware](https://github.com/twoelw/enhanced-kiisu4-fw/releases) for it to work!**
