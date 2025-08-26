@@ -17,4 +17,4 @@ Configure and manage Kiisu aux MCU settings from your Flipper.
 
 ---
 
-**Make sure your Kiisu is on the latest companion firmware for it to work!**
+**Make sure your Kiisu is on the latest [companion firmware](https://github.com/twoelw/enhanced-kiisu4-fw/releases) for it to work!**
