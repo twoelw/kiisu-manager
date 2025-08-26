@@ -1,4 +1,4 @@
-# Kiisu Manager <img src="./banner.png" alt="Kiisu Manager banner" align="right" height="64" />
+# Kiisu Manager <img src="./banner.png" alt="Kiisu Manager banner" align="right" height="256" />
 
 Configure and manage Kiisu aux MCU settings from your Flipper.
 
