@@ -6,8 +6,8 @@
 #include <gui/modules/popup.h>
 #include <notification/notification.h>
 #include <notification/notification_app.h>
-#include <toolbox/saved_struct.h>
 #include <notification/notification_messages.h>
+#include <storage/storage.h>
 
 #include "settings_client.h"
 #include "ui.h"
@@ -25,6 +25,23 @@ typedef struct {
     VariableItem* it_startup;
     VariableItem* it_rainbow;
 } App;
+
+// Save Notification service settings directly (public storage API; mirror service behavior)
+static void save_notification_settings(NotificationApp* notif) {
+    if(!notif) return;
+    File* file = storage_file_alloc(furi_record_open(RECORD_STORAGE));
+    NotificationSettings settings;
+    memcpy(&settings, &notif->settings, sizeof(settings));
+    bool ok = storage_file_open(
+        file, NOTIFICATION_SETTINGS_PATH, FSAM_WRITE, FSOM_CREATE_ALWAYS);
+    if(ok) {
+        size_t n = storage_file_write(file, &settings, sizeof(settings));
+        (void)n; // best-effort
+    }
+    storage_file_close(file);
+    storage_file_free(file);
+    furi_record_close(RECORD_STORAGE);
+}
 
 static const char* poweroff_opts[] = {
     "Off", "15s", "30s", "1m", "5m", "10m", "30m", "60m",
@@ -133,13 +150,8 @@ static void sleep_changed(VariableItem* it) {
         notification_message(app->notification, &sequence_display_backlight_on);
         // Optional: notify internal layer (exported) that settings changed
         notification_internal_message(app->notification, &sequence_display_backlight_on);
-        // Persist settings so they survive app switches and restarts
-        saved_struct_save(
-            NOTIFICATION_SETTINGS_PATH,
-            &app->notification->settings,
-            sizeof(app->notification->settings),
-            NOTIFICATION_SETTINGS_MAGIC,
-            NOTIFICATION_SETTINGS_VERSION);
+    // Persist settings so they survive app switches and restarts
+    save_notification_settings(app->notification);
     }
 }
 
